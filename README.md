@@ -71,9 +71,137 @@ class Controller{
 
 
 
+<h3 id="2.2">2.2 你要掌握</h3>
 
+
+不想显示的实例化，那就需要使用 Java 反射的知识了，通过反射在程序运行时动态的为需要注入的属性实例化(newInstance)。所以要想了解依赖注入你要掌握：
+
+- Java 反射 : 
+
+
+包括加载类对象Class<?>，创建类对象实例，为类对象的属性赋值，为方法赋值等。
+
+
+- Java注解
+
+Java注解实际上就是接口，simpleioc工具 中定义了四个注解，分别是 @Controler，@Service，@Common，@Inject。通通过这是个注解，工具在初始化时判断对哪些类通过反射实例化、注入哪些属性等。
+
+
+- 单例模式
+
+
+simpleioc 初始化时，将通过反射得到的Class对象与对象实例放入Map中，并且将依赖的实例注入到Map的实例中，所以 simpleioc  所有的对象实例操作都是单例模式下的。
+
+
+
+<h3 id="2.3">2.3 简要设计</h3>
+
+
+- 1.首先获得指定包名下所有的类对象 Set< Class<?>>
+
+- 2.遍历类对象 Set< Class<?>> ，将类对象上面标有 @Controller，@Service，@Common 注解的类取出，作为被 simpleioc 管理的 Bean ，即依赖注入在 Bean 上进行。
+
+- 3.遍历 Bean 的 Set集 ，通过反射将其实例化，把 Bean 的Class<?>和实例放入BeanMap中
+
+- 4.遍历 BeanMap ，查看每个类中的属性是否带有 @Inject 注解，如果带有说明是要注入的对象，从 BeanMap 中通过该属性的类型获得该属性的实例，即实现依赖注入。
+
+
+
+<h2 id="3">3. 打开姿势</h2>
+
+simpleioc 这是一个练手工具，还有很多地方需要优化。
+
+
+<h3 id="3.1">3.1 使用姿势</h3>
+
+- 1.配置项
+
+目前工具只需要配置一下你的基础应用包名，用来加载该基础报名下的运行时类类。你必须在 `recourse` 路径下创建一个叫 `ioc.properties` 的属性文件，并在里面配置 base_package参数
+
+```
+base_package=cn.dombro.simpleioc
+```
+
+- 2.工具初始化
+
+
+simpleioc 通过执行几个 Helper类 中的静态代码，将工具初始化，达到依赖注入的目的。IocLoader.init() 方法会加载 Helper 类（执行静态代码），所以只需压在项目启动时使用 IocLoader.init() 就可以达到工具初始化的目的。
+
+
+
+<h3 id="3.2">3.2 普通注入</h3>
+
+上面提到，simpleioc 只会注入被管理的Bean实例，也就是使用了 @Controller，@Service，@Common 注解的类，即 @Inject 注解只能注入Bean的实例。
+
+- 例 将Service注入到Controller中
+
+
+```
+@Service
+class Service{
+
+public void insert(){
+	balabalabala...
+}
+
+}
+
+@Controller
+class Controller{
+      
+	@Inject
+	private Service service;
+
+	public doService(){
+		service.insert();
+    }
+}
+
+``` 
+
+
+至于使用哪种注解，这个看个人个人需要，只是不要影响代码的阅读性就好。
 
  
+<h3 id="3.3">3.3 接口注入</h3>
+
+这个功能不太完善，想到有时候可能只想依赖于某个接口，就考虑了对 @Inject 
+的改良，如果注入某接口的实现类可以在接口上使用 @Inject("实现类全类名")
+但后来考虑这个做法实在有点鸡肋(T T)。
+
+
+- 例 
+
+```
+public interface IService {
+
+    void addService();
+}
+
+public class Controller {
+
+    @Inject("cn.dombro.simpleioc.test.Service")
+    private IService service;
+
+    public void doService(){
+        service.addService();
+    }
+
+}
+
+```
+
+
+<h2 id="4">4. 需要完善</h2>
+
+simpleioc 作为一个练习项目，需要完善的地方很多
+
+
+- 没有考虑线程安全问题
+ 
+
+
+
 
 
 
