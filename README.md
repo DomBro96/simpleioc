@@ -13,6 +13,7 @@
   - [3.2 普通注入](#3.2)
   - [3.3 接口注入](#3.3)
 - [4. 需要完善](#4) 
+- [5. jar下载地址](#5)
 
 
 
@@ -199,7 +200,9 @@ simpleioc 作为一个练习项目，需要完善的地方很多
 
 - 没有考虑线程安全问题
  
+<h2 id="5">5. jar下载地址</h2>
 
+simpleioc是个练习的小程序,没有做成远程maven,想体验的同学可以[戳这里](https://github.com/DomBro96/simpleioc/blob/master/target/simpleioc-1.0.jar)下载jar包。
 
 
 
