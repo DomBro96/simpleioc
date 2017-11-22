@@ -1,0 +1,11 @@
+cn\dombro\simpleioc\factory\BeanFactory.class
+cn\dombro\simpleioc\helper\ClassHelper.class
+cn\dombro\simpleioc\helper\IocLoader.class
+cn\dombro\simpleioc\annotation\Controller.class
+cn\dombro\simpleioc\annotation\Common.class
+cn\dombro\simpleioc\annotation\Inject.class
+cn\dombro\simpleioc\util\ClassUtil.class
+cn\dombro\simpleioc\helper\IocHelper.class
+cn\dombro\simpleioc\util\PropsUtil.class
+cn\dombro\simpleioc\util\ReflectionUtil.class
+cn\dombro\simpleioc\annotation\Service.class
